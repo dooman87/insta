@@ -2,15 +2,15 @@ function renderStatus(statusText) {
   document.getElementById('status').textContent = statusText;
 }
 
-//alert(chrome.extension.getBackgroundPage().imagesCount);
-renderStatus(chrome.extension.getBackgroundPage().imagesCount);
+$(document).ready(function() {
+    renderStatus(chrome.extension.getBackgroundPage().imagesCount);
 
-window.addEventListener("message", function(evt) {
-    if (evt.source != window) {
-        return
-    }
-
-    if (evt.data.type && evt.data.type === "FROM_PAGE") {
-        renderStatus(evt.data.text);
-    }
+    $('.js-start').on('click', function() {
+      window.alert("Start");
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, {type: "FROM_EXTENSION", text: "START"})
+      });
+    });
 });
+
+

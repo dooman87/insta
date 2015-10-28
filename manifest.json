@@ -17,7 +17,7 @@
     "content_scripts": [
         {
         "matches": ["https://instagram.com/*"],
-        "js": ["like.js"]
+        "js": ["jquery-2.1.4.min.js", "like.js"]
         }
     ],
     "version": "1.0"
