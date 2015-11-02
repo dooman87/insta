@@ -1,5 +1,5 @@
 function renderStatus(statusText) {
-    document.getElementById('status').textContent = statusText;
+    $('.js-status').html(statusText);
 }
 
 function sendMessage(text) {
@@ -9,28 +9,24 @@ function sendMessage(text) {
 }
 
 $(document).ready(function() {
+    var buttons = $(".buttons");
+    buttons.hide();
     chrome.runtime.onMessage.addListener(function(msg, sender, response) {
         if (msg.type == "FROM_PAGE") {
             if (msg.data.login && msg.data.imagesCount) {
-                $(".buttons").show();
-                renderStatus("@" + msg.data.login + ", found " + msg.data.imagesCount + " images");
+                buttons.show();
+                renderStatus("Hi @" + msg.data.login + ", we found images. <br/>You can start like them!");
             } else {
-                $(".buttons").hide();
+                buttons.hide();
                 renderStatus("Please login and jump to the page with images");
             }
         }
     });
 
-
     sendMessage("INFO");
 
-    $('.js-start').on('click', function() {
-        sendMessage("START");
-    });
-
-    $('.js-stop').on('click', function() {
-        sendMessage("STOP");
-    });
+    $('.js-start').on('click', function() { sendMessage("START"); });
+    $('.js-stop').on('click' , function() { sendMessage("STOP");  });
 });
 
 

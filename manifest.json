@@ -3,16 +3,15 @@
         "default_icon": "icon.png",
         "default_popup": "popup.html"
     },
-    "description": "This extension shows a Google Image search result for the current page",
+    "description": "Extension is helping to gain your popularity on Instagram",
     "manifest_version": 2,
-    "name": "Getting started example",
+    "name": "Insta",
     "background": {
         "persistent": false,
         "scripts": ["bg.js"]
     },
     "permissions": [
-        "activeTab", 
-        "https://ajax.googleapis.com/"
+        "activeTab" 
     ],
     "content_scripts": [
         {
@@ -20,5 +19,5 @@
         "js": ["jquery-2.1.4.min.js", "like.js"]
         }
     ],
-    "version": "1.0"
+    "version": "0.0.2"
 }
