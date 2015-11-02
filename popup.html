@@ -8,6 +8,12 @@
         font-size: 100%;
         width: 400px;
       }
+      input[type="number"] {
+          width: 40px;
+      }
+      .buttons {
+          padding: 5px;
+      }
     </style>
 
     <!--
@@ -20,7 +26,21 @@
   <body>
     <p class="js-status">Extension is only working on instagram.com</p>
 
-    <div class="buttons">
+    <form class="js-setup">
+      <fieldset>
+        <legend>Setup</legend>
+        <label>
+            Timeout from
+            <input type="number" name="timeout_from" value="3"/>
+        </label>
+        <label>
+            to
+            <input type="number" name="timeout_to" value="10"/>
+        </label>
+      </fieldset>
+    </form>
+
+    <div class="buttons js-buttons">
       <button class="js-start">Start</button>
       <button class="js-stop">Stop</button>
     </div>

@@ -7,6 +7,8 @@ var Insta = function() {
 
     var imagesQueue = [];
     var stop = false;
+    var timeoutFrom = 3000;
+    var timeoutTo = 6000;
 
     /**
      * Observing document to find new images that is loading
@@ -58,21 +60,33 @@ var Insta = function() {
                 }
                 $(IMG_CLOSE_SEL).click();
                 likeImg();
-            }, getRandomIntInclusive(3000, 6000));
+            }, getRandomIntInclusive(timeoutFrom, timeoutTo));
         }
     }
 
-    var doStart = function() {
+    var doStart = function(data) {
+        //Setting up DOM observer
         var config = {childList: true, subtree: true};
         observer.observe(document, config);
 
+        //Setup parameters
+        console.log("Start liking with parameters: ");
+        console.log(data.config);
+        stop = false;
+        timeoutFrom = data.config.timeout_from * 1000;
+        timeoutTo = data.config.timeout_to * 1000;
+
+        //Select current images
         imagesQueue = [];
         $(IMG_SEL).each(addImages);
 
+        //Click on "Load More" button
         var moreImagesEl = $(MORE_LINK_SEL);
-        if (moreImagesEl) {
+        if (moreImagesEl.length) {
             moreImagesEl[0].click();
         }
+
+        //Start like process
         likeImg();
     }
 
@@ -100,13 +114,13 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
 
       if (request.type == "FROM_EXTENSION") {
-          if (request.text == "START") {
-              Insta.doStart();
+          if (request.data.action == "START") {
+              Insta.doStart(request.data);
           }
-          if (request.text == "STOP") {
+          if (request.data.action == "STOP") {
               Insta.doStop();
           }
-          if (request.text == "INFO") {
+          if (request.data.action == "INFO") {
               chrome.runtime.sendMessage({type: "FROM_PAGE", data: Insta.info()});
           }
       }
